@@ -1,0 +1,33 @@
+# To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
+security:
+
+    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        members:
+          id: app.security.member_account_user_provider
+
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+        AppBundle\Security\UserAccount: plaintext
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            pattern: ^/
+            provider: members
+            anonymous: ~
+            form_login:
+                login_path: member_sign_in
+                check_path: member_sign_in
+            logout:
+                path: member_sign_out
+                target: homepage
+
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/tickets, roles: ROLE_USER }

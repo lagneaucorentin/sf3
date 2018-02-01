@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Tiquette{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <link href="{{ asset('assets/styles/theme.css') }}" rel="stylesheet">
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+<header>
+    <div class="app-masthead">
+        <div class="container">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a class="nav-link" href="{{ path('homepage') }}">Accueil</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ path('submit_ticket') }}">Vendre un ticket</a></li>
+                {% if is_granted('ROLE_USER') %}
+                    <li><a class="nav-link" href="{{ path('member_list_all_tickets') }}">Liste des billets</a></li>
+                {% endif %}
+                {%  if not is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li><a class="nav-link" href="{{ path('member_sign_in') }}">Se connecter</a></li>
+                    <li><a class="nav-link" href="{{ path('member_sign_up') }}">S'inscrire</a></li>
+                {% else %}
+                    <li><a class="nav-link" href="{{ path('member_sign_out') }}">Déconnexion</a></li>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{ path('admin.list_all_tickets') }}">Voir tous les tickets proposés</a>
+                    </div>
+                </li>
+                 {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="app-header">
+        <div class="container">
+
+            {% for label, flashes in app.session.flashbag.all %}
+                {% for flash in flashes %}
+                    <div class="alert alert-{{ label }}">{{ flash }}</div>
+                {% endfor %}
+            {% endfor %}
+
+            <h1 class="app-title">Metinet</h1>
+            <p class="lead app-description">Description</p>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+            <div class="app-post">
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="app-footer">
+    <p>Application built by Metinet students.</p>
+    <p>
+        <a href="#">Back to top</a>
+    </p>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+{% block javascripts %}{% endblock %}
+</body>
+</html>

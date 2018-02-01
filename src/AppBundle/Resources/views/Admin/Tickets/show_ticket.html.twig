@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Billet pour {{ ticket.getEventName() }}{% endblock %}
+
+{% block body %}
+    <div class="ticket-body">
+        <h2>{{ ticket.getEventName() }}</h2>
+        <p>{{ ticket.getEventDescription }}</p>
+        <p>{{ ticket.getEventDate().format('d/m/Y H:i') }}</p>
+        <p>{{ ticket.getBoughtAtPrice() }} {{ ticket.getPriceCurrency }}</p>
+    </div>
+    <div class="ticket-auction">
+        <p class="auction-title">
+            Faîtes une proposition pour cet événement
+        </p>
+
+        {{ form(ticketPropositionForm) }}
+    </div>
+{% endblock %}

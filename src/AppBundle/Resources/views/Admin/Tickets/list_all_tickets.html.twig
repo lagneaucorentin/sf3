@@ -1,0 +1,9 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Liste des billets{% endblock %}
+
+{% block body %}
+    {% for ticket in tickets %}
+        <li><a href="{{ path('member_list_detail_ticket', {'id' : ticket.id} ) }}">{{ ticket.eventName }}</a></li>
+    {% endfor %}
+{% endblock %}

@@ -20,4 +20,6 @@ class TicketSubmission
     public $eventDescription;
 
     public $boughtAtPrice;
+
+    public $memberId;
 }

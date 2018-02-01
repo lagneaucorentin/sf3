@@ -48,6 +48,7 @@ class TicketsController extends Controller
     public function submitTicketAction(Request $request): Response
     {
         $ticketSubmission = new TicketSubmission();
+        $ticketSubmission->memberId = $this->getUser()->getId();
 
         $ticketSubmissionForm = $this->createForm(TicketSubmissionType::class, $ticketSubmission);
 

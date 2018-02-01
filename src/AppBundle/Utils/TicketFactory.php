@@ -17,7 +17,8 @@ class TicketFactory
             $ticketSubmission->eventName,
             \DateTimeImmutable::createFromMutable($ticketSubmission->eventDate),
             $ticketSubmission->eventDescription,
-            Price::inLowestSubunit($ticketSubmission->boughtAtPrice, 'EUR')
+            Price::inLowestSubunit($ticketSubmission->boughtAtPrice, 'EUR'),
+            $ticketSubmission->memberId
         );
     }
 }

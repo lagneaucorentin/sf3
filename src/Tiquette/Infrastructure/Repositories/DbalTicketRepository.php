@@ -32,7 +32,8 @@ class DbalTicketRepository implements TicketRepository
             'event_date' => $ticket->getEventDate()->format('Y-m-d\TH:i:00'),
             'bought_at_price' => $ticket->getBoughtAtPrice()->getAmount(),
             'price_currency' => $ticket->getBoughtAtPrice()->getCurrency(),
-            'submitted_on' => $ticket->getSubmittedOn()->format(DATE_ATOM),
+            'member_uuid' => (string) $ticket->getMemberUuid(),
+            'submitted_on' => $ticket->getSubmittedOn()->format('Y-m-d\TH:i:00'),
         ];
 
         $this->connection->insert('tickets', $data);

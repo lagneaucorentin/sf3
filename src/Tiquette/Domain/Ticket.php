@@ -13,9 +13,10 @@ class Ticket
     private $eventDescription;
     private $boughtAtPrice;
     private $submittedOn;
+    private $memberId;
 
     public static function submit(string $eventName, \DateTimeImmutable $eventDate, string $eventDescription,
-        Price $boughtAtPrice): self
+        Price $boughtAtPrice, MemberId $memberId): self
     {
         return new self(
             TicketId::generate(),
@@ -23,7 +24,8 @@ class Ticket
             $eventDate,
             $eventDescription,
             $boughtAtPrice,
-            new \DateTimeImmutable('now', new \DateTimeZone('UTC'))
+            new \DateTimeImmutable('now', new \DateTimeZone('UTC')),
+            $memberId
         );
     }
 
@@ -57,8 +59,13 @@ class Ticket
         return $this->submittedOn;
     }
 
+    public function getMemberUuid(): MemberId
+    {
+        return $this->memberId;
+    }
+
     private function __construct(TicketId $id, string $eventName, \DateTimeImmutable $eventDate, string $eventDescription,
-        Price $boughtAtPrice, \DateTimeImmutable $submittedOn)
+        Price $boughtAtPrice, \DateTimeImmutable $submittedOn, MemberId $memberId)
     {
         $this->id = $id;
         $this->eventName = $eventName;
@@ -66,6 +73,7 @@ class Ticket
         $this->eventDescription = $eventDescription;
         $this->boughtAtPrice = $boughtAtPrice;
         $this->submittedOn = $submittedOn;
+        $this->memberId = MemberId::fromString($memberId);
     }
 
     /**
@@ -80,7 +88,8 @@ class Ticket
             \DateTimeImmutable::createFromFormat('Y-m-d H:i:00', $data['event_date']),
             $data['event_description'],
             Price::inLowestSubunit($data['bought_at_price'], $data['price_currency']),
-            \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $data['submitted_on'])
+            \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $data['submitted_on']),
+            MemberId::fromString($data['member_uuid'])
         );
     }
 }
